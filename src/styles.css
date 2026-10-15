@@ -41,18 +41,20 @@ body { background: radial-gradient(circle at center, #10233f 0, #020813 74%); }
 button, input, textarea, select { font: inherit; }
 
 .viewport {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  display: grid;
-  place-items: center;
+  height: 100dvh;
   overflow: hidden;
 }
 
+/* O palco tem tamanho fixo e é centralizado e escalado pelo Stage.tsx para caber em qualquer janela. */
 .stage {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 1280px;
   height: 720px;
-  aspect-ratio: 16 / 9;
   transform-origin: center;
   overflow: hidden;
   background: var(--white);
@@ -123,6 +125,11 @@ button, input, textarea, select { font: inherit; }
 }
 
 .stage:hover .controls, .controls:focus-within { opacity: 1; transform: translateY(0); }
+/* Sem mouse não há hover: os controles ficam sempre visíveis. */
+@media (hover: none) { .controls { opacity: 1; transform: none; } }
+
+.rotate-hint { display: none; position: absolute; left: 0; right: 0; bottom: 18px; color: #c7d3e4; font-size: 14px; text-align: center; pointer-events: none; }
+@media (orientation: portrait) and (pointer: coarse) { .rotate-hint { display: block; } }
 .controls button { width: 34px; height: 34px; padding: 0; color: white; background: transparent; border: 0; border-radius: 50%; cursor: pointer; }
 .controls button:hover, .controls button:focus-visible { outline: none; background: rgb(255 255 255 / .16); }
 .controls button:disabled { opacity: .3; cursor: default; }
